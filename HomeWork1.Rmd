@@ -1,0 +1,162 @@
+---
+title: "Homework 1"
+author: Peter Sullivan
+
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+---
+
+What is the association between education and earnings?  Using the 1990 dataset entitled "Work, Family, and Well-being in the United States" (https://github.com/avehtari/ROS-Examples/tree/master/Earnings/data, please do the following in this markdown document:
+
+1) read in data found in earnings.csv;
+2) graph the data and add a fitted line;
+3) fit a linear regression of earnings with education as a predictor;
+4) explain what each of the following represents and how it was calculated (see Lab 1c as a reference);
+  a) b1hat for education
+  b) b0hat 
+  c) yhat
+  d) uhat; and
+5) interpret the estimated coefficient for education on earnings as well as the R-Squared.
+
+#  1. Reading in The DAtA
+
+```{r Load Data, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rstanarm)
+setwd("C:/Users/pjsul/OneDrive/Desktop/DACS603/HW1")
+
+```
+
+
+```{r}
+
+urlfile <- "https://raw.githubusercontent.com/avehtari/ROS-Examples/master/Earnings/data/earnings.csv"
+
+data <- read_csv(urlfile, na = c("",NA))
+
+sapply(data, function(Count) sum(is.na(Count)))
+```
+
+
+# 2. Graph the Data and Add a Fitted Line
+
+I've decided to look into the correlation between weight and earnings. Weight will be on the x axis, and earnings on the Y.
+
+
+```{r}
+#colnames(data)
+
+fit <- lm(earn ~ weight, data = data)
+
+summary(fit)
+
+
+plot(data$weight,data$earn, ylim = c(0,1E5))+abline(fit)
+
+
+```
+
+# 3. fit linear regression with education as a indicator
+
+```{r}
+#colnames(data)
+
+fit <- lm(earn ~ education, data = data)
+
+summary(fit)
+
+
+plot(data$education,data$earn, ylim = c(0,2E5))+abline(fit)
+
+
+
+```
+# 4  Explainations:
+explain what each of the following represents and how it was calculated (see Lab 1c as a reference);
+
+  a) b1hat for education
+  
+ B1 hat =  2709.7 
+ 
+  For every 1 year in education, earnings go up 2709.7 dollars, This is the slop of the regression line.
+  
+  b) b0hat 
+  
+  B0 hat = -14,724.1 
+  
+  If you had 0 years of education, you would have earned $-14,724. This is the Intercept of the regression line.
+  
+  c) 
+  
+  yhat  = -14,724 + 2709 *X 
+  Yhat is the expected value of y given x using our regression model. This is the fitted model using the lm regression.
+  
+  d) uhat
+  
+  Uhat represents the residuals from the actual data to the residuals. It can be seen as the reported error from the model per data point.
+  Uhat is the variance from each point the line of best fit. The mean of uhat is basically zero, as we would expect.
+  
+```{r}
+uhat <- resid(fit)
+mean(uhat)
+```
+  
+  
+E: R^2
+
+Multiple R-squared:  0.09445
+
+9.45 % of the variance in the model is explained by the line of best fit. This is a poor model, and I would not recommend using it.
+
+
+# Looking into other variables
+
+
+```{r results='hide'}
+
+
+fit1 <- stan_glm(data$earn~data$education)
+summary(fit1)
+
+fit2 <- lm(data$earn~ data$age)
+summary(fit2)
+
+
+
+fit3 <- lm(data$earn~ data$height)
+summary(fit3)
+
+
+
+
+fit4 <- lm(data$earn~ data$father_education)
+summary(fit4)
+
+
+```
+
+```{r echo = FALSE,message=FALSE, warning=FALSE, error=FALSE}
+par(mfrow = c(2,2))
+plot(data$education,data$earn)+abline(fit1)
+plot(data$age,data$earn)+abline(fit2)
+plot(data$height, data$earn)+abline(fit3)
+plot(data$father_education,data$earn)+abline(fit4)
+
+
+```
+  
+  # Non Cleaned code
+  
+  
+```{r include=FALSE}
+
+urlfile <- "https://raw.githubusercontent.com/avehtari/ROS-Examples/master/Earnings/data/wfw90.dat"
+
+data1 <- read_table(urlfile, na = c("",NA))
+
+sapply(data1, function(Count) sum(is.na(Count)))
+
+```
+  
