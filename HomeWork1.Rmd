@@ -147,16 +147,30 @@ plot(data$father_education,data$earn)+abline(fit4)
 
 ```
   
-  # Non Cleaned code
+# Looping through the models
   
   
-```{r include=FALSE}
+  
+```{r}
+library(knitr)
+data
 
-urlfile <- "https://raw.githubusercontent.com/avehtari/ROS-Examples/master/Earnings/data/wfw90.dat"
+#corr_data <- data[,c(1,2,4,5,7,9:15)]
+#var(corr_data, na.rm = FALSE)
+#kable(round(cor(corr_data),2))
 
-data1 <- read_table(urlfile, na = c("",NA))
+columns <- as.list(colnames(data))
 
-sapply(data1, function(Count) sum(is.na(Count)))
+
+
+models <- lapply(paste("earn ~", columns), as.formula)
+models
+for (model in models){
+  fit <- lm(model, data = data)
+  x <-summary(fit)
+  print(paste(format(model),"R^2 value: ",round(x$r.squared,3)*100,"%"))
+}
+
 
 ```
   
