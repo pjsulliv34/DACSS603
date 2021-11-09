@@ -168,8 +168,8 @@ a.sourceLine {
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Violent Crimes&quot;</span> <span class="ot">=</span> <span class="st">&quot;Violent</span><span class="sc">\n</span><span class="st">crime2&quot;</span>, <span class="st">&quot;Murder&quot;</span> <span class="ot">=</span> <span class="st">&quot;Murder and</span><span class="sc">\n</span><span class="st">nonnegligent</span><span class="sc">\n</span><span class="st">manslaughter&quot;</span> )</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>Crime_data_2019<span class="sc">$</span>States[Crime_data_2019<span class="sc">$</span>States <span class="sc">==</span> <span class="st">&quot;FLORIDA, &quot;</span> ] <span class="ot">&lt;-</span> <span class="st">&quot;FLORIDA&quot;</span></span></code></pre></div>
 </div>
-<div id="intial-plots" class="section level2">
-<h2>Intial Plots</h2>
+<div id="initial-plots" class="section level2">
+<h2>Initial Plots</h2>
 <p>Now that the data is cleaned, I can now take initial glimpses into the data I’ve collected. To perform this I used the package “usmap”. The way this package works is that you use the fips_info from the usmap package to tell the plot “usmap” function which states, citys and regions you plan to map. For this project, I am focusing on all States. So before I can plot my crime data, I first need to join the fips_info with my crime data. That way the plot us map function knows which state to correctly link what ever values I plan on plotting. For this project I decided to focus on only a few crimes, Property crimes, Aggravated Assault, and Murder.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usmap)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>state_info <span class="ot">&lt;-</span> <span class="fu">fips_info</span>()</span>
