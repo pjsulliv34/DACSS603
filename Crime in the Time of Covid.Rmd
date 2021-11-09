@@ -2,7 +2,9 @@
 title: "Crime in the Time of Covid"
 author: "Peter Sullivan"
 date: "11/3/2021"
-output: html_document
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
 ---
 
 # Introduction
